@@ -46,14 +46,41 @@ print(df_budget_zero.head())
 
 '''
 1. some movies actually has budget e.g. Police Academy 2: Their First Assignment (id = 171), so there may be some data missing here
-2. need to check how many movies have no budget value 
+2. need to check how many movies have 0 budget value 
 '''
 
-# calculate how many rows which has 0 budget
+# count how many 0 value in budget
 df_budget_0count  = df.groupby('budget').count()['id']
 print(df_budget_0count.head())
 
 '''
-- 812 movies have budget = 0, so these numbers have to be kept
+- 812 movies have budget = 0, so these numbers may be missing but should be kept and observe later
+- set the 0 value as NULL
 '''
+
+#filter the runtime = 0
+df_runtime_zero = df.query('runtime == 0')
+df_runtime_zero.to_csv('movies_runtime_zero.csv')
+print(df_runtime_zero.head())
+
+# count how many 0 value in runtime
+df_runtime_0count  = df.groupby('runtime').count()['id']
+print(df_runtime_0count.head())
+'''
+- Only 12 movies have 0 value on the runtime, and two movies' runtime are missing
+- There rows can be dropped 
+'''
+
+
+# Planning
+'''
+Conclusion:
+
+1. probably unnecessary columns: homepage / imdb_id / tagline 
+2. Drop duplicates
+3. Drop null values columns that with small quantity of nulls: genres / overview / poster_path / production_countries / spoken_language / cast / crew
+4. Replace zero values with null values: budget 
+5. Drop zero values columns that with small quantity of zeros: runtime
+'''
+
 
